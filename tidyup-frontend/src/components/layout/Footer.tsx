@@ -16,13 +16,13 @@ export default function Footer() {
       <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
         <CleaningServices sx={{ fontSize: 18, color: '#6366f1' }} />
         <Typography variant="body2" color="text.secondary">
-          TidyUp © {new Date().getFullYear()}
+           TidyUp © {new Date().getFullYear()}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           •
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          Made with <Favorite sx={{ fontSize: 14, color: '#ec4899' }} /> for clean homes
+          Made with <Favorite sx={{ fontSize: 14, color: '#ec4899' }} /> for clean homes by Webrys
         </Typography>
       </Stack>
     </Box>
