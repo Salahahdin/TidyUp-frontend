@@ -70,12 +70,12 @@ export default function Navbar() {
               </NavLink>
               <NavLink to="/profile" style={navLinkStyle}>
                 <Person sx={{ fontSize: 20 }} />
-                Profil
+                Profile
               </NavLink>
               {isAdmin && (
                 <NavLink to="/admin" style={navLinkStyle}>
                   <AdminPanelSettings sx={{ fontSize: 20 }} />
-                  Admin
+                  Admin dashboard
                 </NavLink>
               )}
             </Box>

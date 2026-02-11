@@ -99,7 +99,7 @@ export default function TaskCard({ task, onToggleDone, onEdit, onDelete }: Props
                 <Chip
                   icon={<Flag sx={{ fontSize: 14 }} />}
                   size="small"
-                  label={task.priority === 'HIGH' ? 'Wysoki' : task.priority === 'MEDIUM' ? 'Średni' : 'Niski'}
+                  label={task.priority === 'HIGH' ? 'High' : task.priority === 'MEDIUM' ? 'Medium' : 'Low'}
                   sx={{
                     background: priorityStyle.bg,
                     color: priorityStyle.text,
