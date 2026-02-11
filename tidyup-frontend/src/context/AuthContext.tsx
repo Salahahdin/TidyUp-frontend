@@ -1,87 +1,73 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import type { AuthResponse, LoginPayload, User } from '../types/user';
-import { getMe, login as loginRequest } from '../api/userApi';
+import type { LoginPayload, User } from '../types/user';
+import { getMe, login as loginRequest, logout as logoutRequest } from '../api/userApi';
 
 type AuthContextValue = {
   user: User | null;
-  token: string | null;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  isLoading: boolean;
   login: (payload: LoginPayload) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   refreshMe: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-const TOKEN_KEY = 'token';
-
-function normalizeAuth(auth: AuthResponse | null): { token: string | null; user: User | null } {
-  if (!auth?.token) {
-    return { token: null, user: null };
-  }
-  return { token: auth.token, user: auth.user ?? null };
-}
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const isAuthenticated = Boolean(token);
+  const isAuthenticated = Boolean(user);
   const isAdmin = user?.role === 'ADMIN';
 
-  const applyAuth = useCallback((auth: AuthResponse | null) => {
-    const normalized = normalizeAuth(auth);
-    setToken(normalized.token);
-    setUser(normalized.user);
-    if (normalized.token) {
-      localStorage.setItem(TOKEN_KEY, normalized.token);
-    } else {
-      localStorage.removeItem(TOKEN_KEY);
+  const refreshMe = useCallback(async () => {
+    try {
+      const me = await getMe();
+      setUser(me);
+    } catch (error) {
+      setUser(null);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
   const login = useCallback(async (payload: LoginPayload) => {
-    const auth = await loginRequest(payload);
-    applyAuth(auth);
-    if (!auth.user && auth.token) {
-      const me = await getMe();
-      setUser(me);
+    setIsLoading(true);
+    try {
+      await loginRequest(payload);
+      // Po zalogowaniu ciasteczko jest ustawione, pobieramy dane usera
+      await refreshMe();
+    } catch (error) {
+      setIsLoading(false);
+      throw error;
     }
-  }, [applyAuth]);
+  }, [refreshMe]);
 
-  const logout = useCallback(() => {
-    applyAuth(null);
-  }, [applyAuth]);
-
-  const refreshMe = useCallback(async () => {
-    if (!token) {
+  const logout = useCallback(async () => {
+    try {
+      await logoutRequest();
+    } finally {
       setUser(null);
-      return;
     }
-    const me = await getMe();
-    setUser(me);
-  }, [token]);
+  }, []);
 
+  // Sprawdzamy sesję przy starcie aplikacji
   useEffect(() => {
-    if (!token) {
-      setUser(null);
-      return;
-    }
     void refreshMe();
-  }, [refreshMe, token]);
+  }, [refreshMe]);
 
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
-      token,
       isAuthenticated,
       isAdmin,
+      isLoading,
       login,
       logout,
       refreshMe,
     }),
-    [user, token, isAuthenticated, isAdmin, login, logout, refreshMe]
+    [user, isAuthenticated, isAdmin, isLoading, login, logout, refreshMe]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

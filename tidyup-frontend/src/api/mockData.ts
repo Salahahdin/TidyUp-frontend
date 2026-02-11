@@ -56,6 +56,9 @@ export const mockTasks: Task[] = [
 
 export const mockCurrentUser: User = mockUsers[0];
 
+// Symulacja sesji po stronie serwera (ciasteczko)
+let sessionUser: User | null = null;
+
 let taskIdCounter = mockTasks.length + 1;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -70,20 +73,38 @@ export const mockApi = {
     await delay();
     const user = mockUsers.find((u) => u.email === email);
     if (!user) throw new Error('Invalid credentials');
+
+    // Ustawiamy sesję
+    sessionUser = user;
+
     return { token: 'mock-jwt-token', user };
+  },
+
+  async logout() {
+    await delay();
+    sessionUser = null;
   },
 
   // Users
   async getMe() {
     await delay();
-    return { ...mockCurrentUser };
+    if (!sessionUser) {
+      // Symulacja błędu 401 Unauthorized
+      throw new Error('Unauthorized - simulate 401');
+    }
+    return { ...sessionUser };
   },
 
   async updateMe(payload: { name?: string; email?: string }) {
     await delay();
-    if (payload.name) mockCurrentUser.name = payload.name;
-    if (payload.email) mockCurrentUser.email = payload.email;
-    return { ...mockCurrentUser };
+    if (!sessionUser) throw new Error('Unauthorized');
+
+    // Aktualizujemy mockCurrentUser ORAZ sessionUser (bo to ten sam obiekt w pamięci mocka)
+    // W prawdziwym mocku warto byłoby dbać o referencje, ale tutaj upraszczamy
+    if (payload.name) sessionUser.name = payload.name;
+    if (payload.email) sessionUser.email = payload.email;
+
+    return { ...sessionUser };
   },
 
   async listUsers() {

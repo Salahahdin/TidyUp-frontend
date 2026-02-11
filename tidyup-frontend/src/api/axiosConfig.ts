@@ -7,20 +7,16 @@ const api = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
-});
-
-api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
-    if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+    withCredentials: true,
 });
 
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        console.error('API error:', error.response?.status, error.response?.data || error.message);
+        if (error.response && error.response.status === 401) {
+             // Opcjonalnie: można tu obsłużyć wygaśnięcie sesji, np. window.location.href = '/login'
+             // Ale lepiej to robić w Context/Komponentach, żeby nie odświeżać strony brutalnie
+        }
         return Promise.reject(error);
     }
 );

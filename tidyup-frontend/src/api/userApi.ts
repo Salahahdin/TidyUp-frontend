@@ -13,6 +13,14 @@ export async function login(payload: LoginPayload): Promise<AuthResponse> {
   return data;
 }
 
+export async function logout(): Promise<void> {
+  if (useMock) {
+    if (mockApi.logout) await mockApi.logout();
+    return;
+  }
+  await api.post(`${AUTH_BASE}/logout`);
+}
+
 export async function getMe(): Promise<User> {
   if (useMock) return mockApi.getMe();
   const { data } = await api.get<User>(`${USERS_BASE}/me`);
