@@ -96,7 +96,7 @@ export default function LoginPage() {
           TidyUp
         </Typography>
         <Typography variant="h6" sx={{ opacity: 0.9, textAlign: 'center', maxWidth: 400 }}>
-          Zarządzaj zadaniami sprzątania w prosty i przyjemny sposób
+          Take care of your home with our smart cleaning task manager. Stay organized and keep your space tidy!
         </Typography>
       </Box>
 
@@ -134,10 +134,10 @@ export default function LoginPage() {
                   <CleaningServices sx={{ fontSize: 32 }} />
                 </Avatar>
                 <Typography variant="h4" sx={{ fontWeight: 700, color: '#1e293b' }}>
-                  Witaj ponownie!
+                  Welcome back
                 </Typography>
                 <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-                  Zaloguj się do swojego konta
+                  Login to your account to manage your cleaning tasks and keep your home tidy!
                 </Typography>
               </Box>
 
@@ -190,7 +190,7 @@ export default function LoginPage() {
               </Box>
 
               <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mt: 2 }}>
-                Demo: admin@tidyup.pl lub jan@tidyup.pl
+                For Demo purpose : use admin@tidyup.pl lub jan@tidyup.pl and whatever password you want
               </Typography>
             </Stack>
           </CardContent>

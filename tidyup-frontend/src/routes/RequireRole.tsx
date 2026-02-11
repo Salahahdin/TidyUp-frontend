@@ -8,7 +8,6 @@ export default function RequireRole({ role }: { role: 'ADMIN' | 'USER' }) {
     return <Navigate to="/login" replace />;
   }
 
-  // ADMIN może dostępować do wszystkiego, USER może tylko do stron USER
   const hasAccess = user.role === 'ADMIN' || user.role === role;
 
   if (!hasAccess) {

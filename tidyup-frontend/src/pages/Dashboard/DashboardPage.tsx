@@ -140,10 +140,10 @@ export default function DashboardPage() {
         <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems={{ md: 'center' }} spacing={2}>
           <Box>
             <Typography variant="h3" sx={{ fontWeight: 700 }}>
-              Moje zadania 🧹
+              My tasks 🧹
             </Typography>
             <Typography variant="h6" sx={{ opacity: 0.9, mt: 1 }}>
-              Utrzymuj porządek w domu
+              Keep your home clean and organized
             </Typography>
           </Box>
           <Button
@@ -162,7 +162,7 @@ export default function DashboardPage() {
               },
             }}
           >
-            Nowe zadanie
+            New task
           </Button>
         </Stack>
 
@@ -170,7 +170,7 @@ export default function DashboardPage() {
         <Box sx={{ mt: 3 }}>
           <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
             <Typography variant="body2" sx={{ opacity: 0.9 }}>
-              Postęp: {doneCount} z {tasks.length} zadań ukończonych
+              Progress: {doneCount} from {tasks.length} tasks done
             </Typography>
             <Typography variant="body2" sx={{ fontWeight: 600 }}>
               {Math.round(progress)}%
@@ -195,19 +195,19 @@ export default function DashboardPage() {
       {/* Stats */}
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
         <StatCard
-          title="Wszystkie zadania"
+          title="All tasks"
           value={tasks.length}
           icon={<Assignment />}
           gradient="linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)"
         />
         <StatCard
-          title="Do zrobienia"
+          title="To do"
           value={pendingCount}
           icon={<Schedule />}
           gradient="linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)"
         />
         <StatCard
-          title="Ukończone"
+          title="Finished"
           value={doneCount}
           icon={<CheckCircle />}
           gradient="linear-gradient(135deg, #10b981 0%, #34d399 100%)"
@@ -219,11 +219,11 @@ export default function DashboardPage() {
       {/* Task list */}
       <Box>
         <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
-          Lista zadań
+          Task list
         </Typography>
         {loading ? (
           <Box sx={{ textAlign: 'center', py: 4 }}>
-            <Typography color="text.secondary">Ładowanie zadań...</Typography>
+            <Typography color="text.secondary">Loading tasks...</Typography>
           </Box>
         ) : (
           <TaskList tasks={tasks} onToggleDone={handleToggle} onEdit={handleEdit} onDelete={handleDelete} />
@@ -240,7 +240,7 @@ export default function DashboardPage() {
         }}
       >
         <DialogTitle sx={{ fontWeight: 600 }}>
-          {editingTask ? 'Edytuj zadanie' : 'Nowe zadanie'}
+          {editingTask ? 'Edit task' : 'New task'}
         </DialogTitle>
         <DialogContent>
           <TaskForm

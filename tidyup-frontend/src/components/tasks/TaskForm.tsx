@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material';
 import type { Task, TaskInput, TaskPriority, TaskUpdateInput } from '../../types/task';
 
-const priorities: TaskPriority[] = ['LOW', 'MEDIUM', 'HIGH'];
+const priorities: TaskPriority[] = ['', 'LOW', 'MEDIUM', 'HIGH'];
 
 type Props = {
   task?: Task | null;
@@ -14,7 +14,7 @@ const emptyState: TaskInput = {
   title: '',
   description: '',
   dueDate: '',
-  priority: 'MEDIUM',
+  priority: '',
   location: '',
 };
 
@@ -84,7 +84,9 @@ export default function TaskForm({ task, onCancel, onSubmit }: Props) {
               onChange={(event) => handleChange('priority', event.target.value)}
             >
               {priorities.map((priority) => (
-                <MenuItem key={priority} value={priority}>{priority}</MenuItem>
+                <MenuItem key={priority} value={priority}>
+                  {priority === '' ? 'None' : priority}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

@@ -51,13 +51,13 @@ export default function ProfilePage() {
           {user?.name?.charAt(0) || user?.email?.charAt(0) || 'U'}
         </Avatar>
         <Typography variant="h4" sx={{ fontWeight: 700 }}>
-          {user?.name || 'Użytkownik'}
+          {user?.name || 'User'}
         </Typography>
         <Typography variant="body1" sx={{ opacity: 0.9, mt: 0.5 }}>
           {user?.email}
         </Typography>
         <Chip
-          label={user?.role === 'ADMIN' ? 'Administrator' : 'Użytkownik'}
+          label={user?.role === 'ADMIN' ? 'Admin' : 'User'}
           sx={{
             mt: 2,
             background: 'rgba(255,255,255,0.2)',
@@ -71,24 +71,24 @@ export default function ProfilePage() {
       <Card>
         <CardContent sx={{ p: 4 }}>
           <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-            Edytuj profil
+            Edit profile
           </Typography>
 
           {status === 'success' && (
             <Alert severity="success" sx={{ mb: 3, borderRadius: 3 }}>
-              Profil został zaktualizowany!
+              Profile has been updated!
             </Alert>
           )}
           {status === 'error' && (
             <Alert severity="error" sx={{ mb: 3, borderRadius: 3 }}>
-              Nie udało się zaktualizować profilu.
+              Failed to update profile.
             </Alert>
           )}
 
           <Box component="form" onSubmit={handleSubmit}>
             <Stack spacing={3}>
               <TextField
-                label="Imię i nazwisko"
+                label="name and surname"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 fullWidth
@@ -113,10 +113,10 @@ export default function ProfilePage() {
                 <Badge sx={{ color: 'text.secondary' }} />
                 <Box>
                   <Typography variant="body2" color="text.secondary">
-                    Rola
+                    Role
                   </Typography>
                   <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                    {user?.role === 'ADMIN' ? 'Administrator' : 'Użytkownik'}
+                    {user?.role === 'ADMIN' ? 'Admin' : 'User'}
                   </Typography>
                 </Box>
               </Box>
@@ -131,7 +131,7 @@ export default function ProfilePage() {
                   mt: 2,
                 }}
               >
-                {status === 'saving' ? 'Zapisywanie...' : 'Zapisz zmiany'}
+                {status === 'saving' ? 'Saving...' : 'Save changes'}
               </Button>
             </Stack>
           </Box>

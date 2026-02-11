@@ -84,10 +84,10 @@ export default function AdminPage() {
           </Avatar>
           <Box>
             <Typography variant="h3" sx={{ fontWeight: 700 }}>
-              Panel Administratora
+              Admin panel
             </Typography>
             <Typography variant="h6" sx={{ opacity: 0.9 }}>
-              Zarządzaj użytkownikami i ich uprawnieniami
+              User management
             </Typography>
           </Box>
         </Stack>
@@ -106,7 +106,7 @@ export default function AdminPage() {
                   {users.length}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Wszyscy użytkownicy
+                  All users
                 </Typography>
               </Box>
             </Stack>
@@ -140,7 +140,7 @@ export default function AdminPage() {
                   {users.filter((u) => u.role === 'ADMIN').length}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Administratorzy
+                  Admins
                 </Typography>
               </Box>
             </Stack>
@@ -153,11 +153,11 @@ export default function AdminPage() {
       {/* User list */}
       <Box>
         <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
-          Lista użytkowników
+          Users list
         </Typography>
 
         {loading ? (
-          <Typography color="text.secondary">Ładowanie użytkowników...</Typography>
+          <Typography color="text.secondary">Loading users...</Typography>
         ) : (
           <Box
             sx={{
@@ -197,7 +197,7 @@ export default function AdminPage() {
                       </Avatar>
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <Typography variant="subtitle1" sx={{ fontWeight: 600 }} noWrap>
-                          {user.name || 'Bez nazwy'}
+                          {user.name || 'default_username'}
                         </Typography>
                         <Typography variant="body2" color="text.secondary" noWrap>
                           {user.email}
@@ -205,7 +205,7 @@ export default function AdminPage() {
                       </Box>
                       <Chip
                         size="small"
-                        label={user.active !== false ? 'Aktywny' : 'Zablokowany'}
+                        label={user.active !== false ? 'Active' : 'Banned'}
                         sx={{
                           background: user.active !== false ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
                           color: user.active !== false ? '#059669' : '#dc2626',
@@ -217,22 +217,22 @@ export default function AdminPage() {
                     {/* Controls */}
                     <Stack direction="row" spacing={2} alignItems="center">
                       <FormControl size="small" sx={{ flex: 1 }}>
-                        <InputLabel>Rola</InputLabel>
+                        <InputLabel>Role</InputLabel>
                         <Select
-                          label="Rola"
+                          label="Role"
                           value={user.role}
                           onChange={(event) => handleRoleChange(user, event.target.value as UserRole)}
                         >
                           {roles.map((role) => (
                             <MenuItem key={role} value={role}>
-                              {role === 'ADMIN' ? 'Administrator' : 'Użytkownik'}
+                              {role === 'ADMIN' ? 'Admin' : 'User'}
                             </MenuItem>
                           ))}
                         </Select>
                       </FormControl>
                       <Stack direction="row" alignItems="center" spacing={1}>
                         <Typography variant="body2" color="text.secondary">
-                          Aktywny
+                          Active
                         </Typography>
                         <Switch
                           checked={user.active !== false}
