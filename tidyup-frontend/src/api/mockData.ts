@@ -104,6 +104,9 @@ export const mockApi = {
     if (payload.name) sessionUser.name = payload.name;
     if (payload.email) sessionUser.email = payload.email;
 
+    // Aktualizujemy też storage żeby przetrwało odświeżenie
+    localStorage.setItem(MOCK_SESSION_KEY, JSON.stringify(sessionUser));
+
     return { ...sessionUser };
   },
 
