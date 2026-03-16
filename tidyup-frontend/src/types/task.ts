@@ -1,10 +1,10 @@
 export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH' | '';
 
 export interface Task {
-  id: string | number;
+  task_id: string | number;
   title: string;
   description?: string;
-  done: boolean;
+  isDone: boolean;
   dueDate?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -21,5 +21,5 @@ export interface TaskInput {
 }
 
 export interface TaskUpdateInput extends TaskInput {
-  done?: boolean;
+  isDone?: boolean;
 }
