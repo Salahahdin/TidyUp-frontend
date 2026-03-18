@@ -56,6 +56,8 @@ export const mockTasks: Task[] = [
 
 export const mockCurrentUser: User = mockUsers[0];
 
+const MOCK_SESSION_KEY = 'tidyup_mock_session_user';
+
 // Symulacja sesji po stronie serwera (ciasteczko)
 let sessionUser: User | null = null;
 

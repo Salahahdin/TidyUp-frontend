@@ -193,14 +193,14 @@ export default function AdminPage() {
                           fontWeight: 600,
                         }}
                       >
-                        {user.name?.charAt(0) || user.email.charAt(0).toUpperCase()}
+                        {user.name?.charAt(0) || user.email?.charAt(0)?.toUpperCase() || user.username?.charAt(0)?.toUpperCase() || 'U'}
                       </Avatar>
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <Typography variant="subtitle1" sx={{ fontWeight: 600 }} noWrap>
                           {user.name || 'default_username'}
                         </Typography>
                         <Typography variant="body2" color="text.secondary" noWrap>
-                          {user.email}
+                          {user.email || user.username || '-'}
                         </Typography>
                       </Box>
                       <Chip

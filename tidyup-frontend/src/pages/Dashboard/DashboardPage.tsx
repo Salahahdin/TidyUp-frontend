@@ -18,8 +18,10 @@ import TaskList from '../../components/tasks/TaskList';
 import TaskForm from '../../components/tasks/TaskForm';
 import type { Task, TaskInput, TaskUpdateInput } from '../../types/task';
 import { createTask, deleteTask, getTasks, toggleTaskDone, updateTask } from '../../api/taskApi';
+import { useAuth } from '../../context/AuthContext';
 
 export default function DashboardPage() {
+  const { user } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,10 +33,15 @@ export default function DashboardPage() {
   const progress = tasks.length > 0 ? (doneCount / tasks.length) * 100 : 0;
 
   const loadTasks = async () => {
+    if (!user?.id) {
+      setTasks([]);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
-      const data = await getTasks();
+      const data = await getTasks(user.id);
       setTasks(data);
     } catch (err) {
       setError('Could not load tasks.');
@@ -45,7 +52,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     void loadTasks();
-  }, []);
+  }, [user?.id]);
 
   const handleCreate = () => {
     setEditingTask(null);
@@ -58,12 +65,17 @@ export default function DashboardPage() {
   };
 
   const handleSubmit = async (payload: TaskInput | TaskUpdateInput) => {
+    if (!user?.id) {
+      setError('Cannot save task without authenticated user.');
+      return;
+    }
+
     try {
       if (editingTask) {
         const updated = await updateTask(editingTask.id, payload);
         setTasks((prev) => prev.map((task) => (task.id === updated.id ? updated : task)));
       } else {
-        const created = await createTask(payload as TaskInput);
+        const created = await createTask(user.id, payload as TaskInput);
         setTasks((prev) => [created, ...prev]);
       }
       setDialogOpen(false);

@@ -2,7 +2,8 @@ export type UserRole = 'ADMIN' | 'USER';
 
 export interface User {
   id: string | number;
-  email: string;
+  username?: string;
+  email?: string;
   name?: string;
   role: UserRole;
   active?: boolean;
@@ -10,7 +11,8 @@ export interface User {
 }
 
 export interface LoginPayload {
-  email: string;
+  username?: string;
+  email?: string;
   password: string;
 }
 

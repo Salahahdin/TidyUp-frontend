@@ -8,7 +8,7 @@ export default function LoginPage() {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -26,7 +26,7 @@ export default function LoginPage() {
     setError(null);
     setLoading(true);
     try {
-      await login({ email, password });
+      await login({ username, password });
       navigate(from, { replace: true });
     } catch (err) {
       setError('Login failed. Check your credentials.');
@@ -149,10 +149,9 @@ export default function LoginPage() {
 
               <Box component="form" onSubmit={handleSubmit}>
                 <TextField
-                  label="Email"
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  label="Username"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
                   fullWidth
                   margin="normal"
                   required
@@ -190,7 +189,7 @@ export default function LoginPage() {
               </Box>
 
               <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mt: 2 }}>
-                For Demo purpose : use admin@tidyup.pl lub jan@tidyup.pl and whatever password you want
+                For demo use username from backend (for example: admin)
               </Typography>
             </Stack>
           </CardContent>

@@ -8,8 +8,17 @@ const AUTH_BASE = '/auth';
 const USERS_BASE = '/users';
 
 export async function login(payload: LoginPayload): Promise<AuthResponse> {
-  if (useMock) return mockApi.login(payload.email, payload.password);
-  const { data } = await api.post<AuthResponse>(`${AUTH_BASE}/login`, payload);
+  const username = payload.username || payload.email;
+  if (!username) {
+    throw new Error('Username is required');
+  }
+
+  if (useMock) return mockApi.login(username, payload.password);
+
+  const { data } = await api.post<AuthResponse>(`${AUTH_BASE}/login`, {
+    username,
+    password: payload.password,
+  });
   return data;
 }
 
@@ -23,7 +32,7 @@ export async function logout(): Promise<void> {
 
 export async function getMe(): Promise<User> {
   if (useMock) return mockApi.getMe();
-  const { data } = await api.get<User>(`${USERS_BASE}/me`);
+  const { data } = await api.get<User>(`${AUTH_BASE}/me`);
   return data;
 }
 
